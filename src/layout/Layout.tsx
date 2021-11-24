@@ -1,9 +1,9 @@
 import { Header, Content, Footer } from "../components/index";
 
+import { LayoutProps } from "./types";
 import styles from "./Layout.module.css";
-type Props = { children: React.ReactNode };
 
-export default function Layout({ children }: Props) {
+export default function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
