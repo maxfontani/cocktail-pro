@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from "@reduxjs/toolkit";
 import { cocktailsAdapter } from "./cocktailsSlice";
 
 import { RootState } from "../store";
