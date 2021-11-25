@@ -1,8 +1,7 @@
 import styles from "./Content.module.css";
+import { ContentProps } from "./types";
 
-type Props = { children: React.ReactNode };
-
-const Content = ({ children }: Props) => (
+const Content = ({ children }: ContentProps) => (
   <div className={styles.content}>{children}</div>
 );
 

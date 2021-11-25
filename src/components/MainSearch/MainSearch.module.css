@@ -1,0 +1,32 @@
+:root {
+  --base-height: 45px;
+}
+
+.mainSearch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchInput {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 15px;
+  width: 70%;
+  max-width: 480px;
+  height: var(--base-height);
+}
+
+.searchBtn {
+  border: none;
+  background-color: transparent;
+}
+
+.searchBtnImg {
+  width: var(--base-height);
+  height: var(--base-height);
+}
+
+.searchBtn:hover {
+  cursor: pointer;
+}
