@@ -1,8 +1,4 @@
 export type CocktailsInitState = {
-  autosuggest: Array<{
-    id: string;
-    name: string;
-  }>;
   total: number;
   status: "idle" | "loading" | "success" | "error";
   error: string | null;
@@ -60,9 +56,4 @@ export type Cocktail = {
   strImageAttribution: string | null;
   strCreativeCommonsConfirmed: string | null;
   dateModified: string | null;
-};
-
-export type suggestCocktailsByNameProps = {
-  searchText: string;
-  sugLimit: number;
 };

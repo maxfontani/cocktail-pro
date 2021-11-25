@@ -20,8 +20,3 @@ export const selectShopStatus = createSelector(selectCocktails, (cocktails) => [
   cocktails.status,
   cocktails.error,
 ]);
-
-export const selectAutoSuggestions = createSelector(
-  selectCocktails,
-  (cocktails) => cocktails.autosuggest,
-);

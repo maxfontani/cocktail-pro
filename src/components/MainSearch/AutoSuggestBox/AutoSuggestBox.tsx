@@ -1,12 +1,18 @@
-import styles from "./AutoSuggestBox.module.css";
-import { Props } from "./types";
+import { Link } from "react-router-dom";
+import { AutoSuggestions } from "../types";
 
-function AutoSuggestBox(props: { sugList: Props[] }) {
+import styles from "./AutoSuggestBox.module.css";
+
+function AutoSuggestBox(props: { sugList: AutoSuggestions }) {
   const list = props.sugList;
   return list.length !== 0 ? (
     <div className={styles.outer}>
-      {list.map((drink) => (
-        <li key={drink.id}>{drink.name}</li>
+      {list.map((item) => (
+        <li key={item.id} className={styles.listItem}>
+          <Link className={styles.listItemLink} to={item.url}>
+            {item.name}
+          </Link>
+        </li>
       ))}
     </div>
   ) : null;
