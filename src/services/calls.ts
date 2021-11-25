@@ -7,7 +7,6 @@ export function getCocktailById(id: number) {
       if (response.data && response.data.idDrink) {
         return response.data;
       }
-      return;
     })
     .catch(() => {
       throw new Error("Server error while fetching cocktail by id.");
