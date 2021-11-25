@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from "@reduxjs/toolkit";
 import { cocktailsAdapter } from "./cocktailsSlice";
 
 import { RootState } from "../store";
@@ -20,3 +20,8 @@ export const selectShopStatus = createSelector(selectCocktails, (cocktails) => [
   cocktails.status,
   cocktails.error,
 ]);
+
+export const selectAutoSuggestions = createSelector(
+  selectCocktails,
+  (cocktails) => cocktails.autosuggest,
+);

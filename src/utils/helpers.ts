@@ -1,7 +1,6 @@
-export function createDebounceFunction<F extends (...args: any[]) => any>(
-  fn: F,
-  ms: number,
-) {
+type F = (...args: any[]) => any;
+
+export function debounce(fn: F, ms: number) {
   let timeout: ReturnType<typeof setTimeout>;
   return function debouncedFn(...args: Parameters<F>) {
     const fnCall = () => {

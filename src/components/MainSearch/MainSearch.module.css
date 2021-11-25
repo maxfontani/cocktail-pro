@@ -2,7 +2,7 @@
   --base-height: 45px;
 }
 
-.mainSearch {
+.mainSearchForm {
   display: flex;
   justify-content: center;
   align-items: center;
