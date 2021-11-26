@@ -4,7 +4,7 @@ import { MainSearch } from "../../components";
 import { suggestCocktailsByName } from "../../services/calls";
 import { searchCocktailsByName } from "../../store/cocktails/thunks";
 
-import styles from "./HomePage.module.css";
+import s from "./HomePage.module.css";
 
 function HomePage() {
   const dispatch = useAppDispatch();
@@ -14,14 +14,13 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={styles.outer}>
+    <div className={s.outer}>
       <h2>Welcome to CocktailsPRO!</h2>
       <p>Search for a cocktail:</p>
       <MainSearch
         onSearchSubmit={mainSearchSubmitHandler}
         getSuggestionsAsync={suggestCocktailsByName}
         sugLimit={5}
-        debounceMs={500}
       />
     </div>
   );

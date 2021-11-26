@@ -1,18 +1,20 @@
 import React, { useState, useCallback, useEffect } from "react";
-import AutoSuggestBox from "./AutoSuggestBox/AutoSuggestBox";
+import SuggestBox from "./SuggestBox/SuggestBox";
 import { debounce } from "../../utils/helpers";
 
-import styles from "./MainSearch.module.css";
-import { MainSearchProps, AutoSuggestions } from "./types";
+import s from "./MainSearch.module.css";
+import { MainSearchProps, Suggestions } from "./types";
+import { SyntheticEvent } from "hoist-non-react-statics/node_modules/@types/react";
+
+const DEBOUNCE_MS = 500;
 
 function MainSearch({
   onSearchSubmit,
   getSuggestionsAsync,
   sugLimit,
-  debounceMs,
 }: MainSearchProps) {
   const [searchText, setSearchText] = useState<string>("");
-  const [suggestions, setSuggestions] = useState<AutoSuggestions>([]);
+  const [suggestions, setSuggestions] = useState<Suggestions>([]);
   const fetchSuggestions = (search: string) => {
     getSuggestionsAsync(search, sugLimit)
       .then((list) => {
@@ -23,7 +25,7 @@ function MainSearch({
       });
   };
   const fetchSuggestionsDebounced = useCallback(
-    debounce(fetchSuggestions, debounceMs),
+    debounce(fetchSuggestions, DEBOUNCE_MS),
     [],
   );
 
@@ -43,31 +45,31 @@ function MainSearch({
     [],
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     onSearchSubmit(searchText);
   };
 
   return (
-    <div className={styles.outer}>
-      <div className={styles.inner}>
+    <div className={s.outer}>
+      <div className={s.inner}>
         <form
           id="search-form"
-          className={styles.mainSearchForm}
+          className={s.mainSearchForm}
           onSubmit={handleSubmit}
         >
           <input
-            className={styles.searchInput}
+            className={s.searchInput}
             value={searchText}
             onChange={handleInputChange}
             type="search"
           />
-          <AutoSuggestBox sugList={suggestions} />
+          <SuggestBox suggestions={suggestions} />
         </form>
         <button
-          className={styles.searchBtn}
+          className={s.searchBtn}
           form="search-form"
-          onClick={() => handleSubmit}
+          onClick={handleSubmit}
           type="submit"
         />
       </div>

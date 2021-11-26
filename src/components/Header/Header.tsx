@@ -2,17 +2,17 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../../images/logo.jpg";
 
-import styles from "./Header.module.css";
+import s from "./Header.module.css";
 
 const Header = () => (
-  <div className={styles.outer}>
-    <div className={styles.header}>
-      <Link className={styles.link} to="/">
-        <p className={styles.logo}>CocktailsPRO</p>
+  <div className={s.outer}>
+    <div className={s.header}>
+      <Link className={s.link} to="/">
+        <p className={s.logo}>CocktailsPRO</p>
       </Link>
-      <span className={styles.subtitle}>Only the finest recipes!</span>
+      <span className={s.subtitle}>Only the finest recipes!</span>
     </div>
-    <img className={styles.logoImg} src={logoImg} alt="CocktailsPRO" />
+    <img className={s.logoImg} src={logoImg} alt="CocktailsPRO" />
   </div>
 );
 

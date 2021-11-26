@@ -1,8 +1,8 @@
-import styles from "./Content.module.css";
+import s from "./Content.module.css";
 import { ContentProps } from "./types";
 
 const Content = ({ children }: ContentProps) => (
-  <div className={styles.content}>{children}</div>
+  <div className={s.content}>{children}</div>
 );
 
 export default Content;

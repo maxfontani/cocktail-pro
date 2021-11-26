@@ -1,10 +1,10 @@
 import { memo } from "react";
 
-import styles from "./Footer.module.css";
+import s from "./Footer.module.css";
 
 const Footer = () => (
-  <div className={styles.footer}>
-    <div className={styles.footerContent}>
+  <div className={s.footer}>
+    <div className={s.footerContent}>
       <div>All rights reserved © 2021.</div>
       <div>
         <a
