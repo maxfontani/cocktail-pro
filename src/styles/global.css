@@ -6,8 +6,8 @@
   --color-primary-4: #454a41;
   --color-primary-5: #93978f;
   --color-dark: #1e1f1c;
-  --product-card-width: 125px;
-  --sidebar-width: 350px;
+  --card-width: 175px;
+  --sidebar-width: 250px;
 }
 
 body {

@@ -1,0 +1,26 @@
+.sidebar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 18px;
+  height: 100%;
+  width: var(--sidebar-width);
+  max-width: 325px;
+  color: var(--color-dark);
+  border-right: 1px solid black;
+}
+
+.sidebarContent {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+@media only screen and (max-width: 480px) {
+  .sidebar {
+    display: none;
+  }
+}

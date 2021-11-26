@@ -1,16 +1,22 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch } from "../../hooks/redux";
+import { useNavigate } from "react-router";
 import { MainSearch } from "../../components";
+import { resetCocktailsState } from "../../store/cocktails/cocktailsSlice";
 import { suggestCocktailsByName } from "../../services/calls";
-import { searchCocktailsByName } from "../../store/cocktails/thunks";
 
 import s from "./HomePage.module.css";
 
 function HomePage() {
   const dispatch = useAppDispatch();
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    dispatch(resetCocktailsState());
+  }, []);
 
   const mainSearchSubmitHandler = useCallback((text: string) => {
-    dispatch(searchCocktailsByName(text));
+    navigator(`/cocktails?search=${text}`);
   }, []);
 
   return (

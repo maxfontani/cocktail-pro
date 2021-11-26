@@ -1,8 +1,10 @@
 import cocktailDbApi from "./api";
+import { getCocktailUrlFromId } from "../utils/helpers";
+
 import { Cocktail } from "../store/cocktails/types";
 import { Suggestions } from "../components/MainSearch/types";
 
-export function getCocktailById(id: number) {
+export function getCocktailById(id: string): Promise<Cocktail | undefined> {
   return cocktailDbApi
     .get(`/lookup.php?i=${id}`)
     .then((response) => {
@@ -31,7 +33,7 @@ export function suggestCocktailsByName(
         return list.map((cocktail: Cocktail) => ({
           id: cocktail.idDrink,
           name: cocktail.strDrink,
-          url: `/cocktail?id=${cocktail.idDrink}`,
+          url: getCocktailUrlFromId(cocktail.idDrink),
         }));
       }
       return [];

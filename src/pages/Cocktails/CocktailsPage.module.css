@@ -1,0 +1,9 @@
+.outer {
+  height: 100%;
+}
+
+.splitTwoCol {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+}
