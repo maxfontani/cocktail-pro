@@ -2,10 +2,10 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { searchCocktailsByName } from "./thunks";
 
-import { cocktail, CocktailsInitState } from "./types";
+import { Cocktail, CocktailsInitState } from "./types";
 
 export const cocktailsAdapter = createEntityAdapter({
-  selectId: (cocktail: cocktail) => cocktail.idDrink,
+  selectId: (cocktail: Cocktail) => cocktail.idDrink,
 });
 
 const initialState = cocktailsAdapter.getInitialState<CocktailsInitState>({

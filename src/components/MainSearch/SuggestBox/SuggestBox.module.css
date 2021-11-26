@@ -1,0 +1,18 @@
+.outer {
+  border: 1px solid black;
+  width: var(--base-search-width);
+}
+
+.listItem {
+  list-style-type: none;
+}
+
+.listItem:hover {
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.listItemLink {
+  color: black;
+  text-decoration: none;
+}

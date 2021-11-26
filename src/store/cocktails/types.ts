@@ -4,7 +4,7 @@ export type CocktailsInitState = {
   error: string | null;
 };
 
-export type cocktail = {
+export type Cocktail = {
   idDrink: string;
   strDrink: string;
   strDrinkAlternate: string | null;

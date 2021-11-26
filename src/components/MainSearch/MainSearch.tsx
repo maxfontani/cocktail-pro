@@ -1,37 +1,79 @@
-import React, { useState } from "react";
-import searchImg from "../../images/search.png";
+import React, { useState, useCallback, useEffect } from "react";
+import SuggestBox from "./SuggestBox/SuggestBox";
+import { debounce } from "../../utils/helpers";
 
-import styles from "./MainSearch.module.css";
-import { MainSearchProps } from "./types";
+import s from "./MainSearch.module.css";
+import { MainSearchProps, Suggestions } from "./types";
+import { SyntheticEvent } from "hoist-non-react-statics/node_modules/@types/react";
 
-function MainSearch({ handleSearchSubmit }: MainSearchProps) {
+const DEBOUNCE_MS = 500;
+
+function MainSearch({
+  onSearchSubmit,
+  getSuggestionsAsync,
+  sugLimit,
+}: MainSearchProps) {
   const [searchText, setSearchText] = useState<string>("");
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
+  const [suggestions, setSuggestions] = useState<Suggestions>([]);
+  const fetchSuggestions = (search: string) => {
+    getSuggestionsAsync(search, sugLimit)
+      .then((list) => {
+        setSuggestions(list);
+      })
+      .catch(() => {
+        setSuggestions([]);
+      });
   };
+  const fetchSuggestionsDebounced = useCallback(
+    debounce(fetchSuggestions, DEBOUNCE_MS),
+    [],
+  );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (searchText) {
+      fetchSuggestionsDebounced(searchText);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchText]);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+      setSearchText(input);
+    },
+    [],
+  );
+
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    handleSearchSubmit(searchText);
+    onSearchSubmit(searchText);
   };
 
   return (
-    <form className={styles.mainSearch} onSubmit={handleSubmit}>
-      <input
-        className={styles.searchInput}
-        value={searchText}
-        onChange={handleInputChange}
-        type="search"
-      />
-      <button
-        className={styles.searchBtn}
-        onClick={() => handleSubmit}
-        type="submit"
-      >
-        <img className={styles.searchBtnImg} src={searchImg} alt="Search" />
-      </button>
-    </form>
+    <div className={s.outer}>
+      <div className={s.inner}>
+        <form
+          id="search-form"
+          className={s.mainSearchForm}
+          onSubmit={handleSubmit}
+        >
+          <input
+            className={s.searchInput}
+            value={searchText}
+            onChange={handleInputChange}
+            type="search"
+          />
+          <SuggestBox suggestions={suggestions} />
+        </form>
+        <button
+          className={s.searchBtn}
+          form="search-form"
+          onClick={handleSubmit}
+          type="submit"
+        />
+      </div>
+    </div>
   );
 }
 
