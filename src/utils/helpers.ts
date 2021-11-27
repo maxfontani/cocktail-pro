@@ -11,6 +11,6 @@ export function debounce(fn: F, ms: number) {
   };
 }
 
-export function getCocktailUrlFromId(id: string): string {
-  return `/cocktail/${id}`;
+export function getCocktailUrl(id: string): string {
+  return `/cocktails/${id}`;
 }

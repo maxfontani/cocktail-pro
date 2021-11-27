@@ -1,0 +1,31 @@
+.outer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.signInBtn {
+  color: black;
+  width: 75px;
+  height: 35px;
+  margin: 5px;
+}
+
+.regBtn {
+  color: black;
+  width: 75px;
+  height: 35px;
+  margin: 5px;
+}
+
+@media all and (max-width: 480px) {
+  .outer {
+    flex-direction: column;
+  }
+}
