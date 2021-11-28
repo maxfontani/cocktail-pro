@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { nopeResolver } from "@hookform/resolvers/nope";
 import { Space } from "../..";
-import FormInputLine from "../FormInputLine/FormInputLine";
-import { BasicAuthSchema } from "../shemas/BasicProductShema";
+import FormInput from "../FormInput/FormInput";
+import { BasicAuthSchema } from "../shemas/BasicAuthSchema";
 
 import { FormValues, Props } from "./types";
 import s from "../Form.module.css";
@@ -19,37 +19,28 @@ export default function AuthForm({ title, type, submitFormHandler }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: nopeResolver(BasicAuthSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues,
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => submitFormHandler(data);
-  const onError: any = (obj: any) => {
-    console.log(obj);
-  };
 
   return (
-    <form
-      id="form"
-      className={s.formOuter}
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
+    <form id="form" className={s.formOuter} onSubmit={handleSubmit(onSubmit)}>
       <div className={s.formTitle}>{title}</div>
-      <FormInputLine
+      <FormInput
         tag="login"
         label="Login:"
-        register={register("login")}
+        register={register}
         errors={errors}
-        isSubmitting={isSubmitting}
       />
-      <FormInputLine
+      <FormInput
         tag="password"
-        label="Password"
-        register={register("password")}
+        label="Password:"
+        register={register}
         errors={errors}
-        isSubmitting={isSubmitting}
       />
-      <Space size="xs" />
+      <Space size="s" />
       <button className={s.formButton} type="submit" disabled={isSubmitting}>
         {type === "register" && "Register"}
         {type === "signup" && "Sign in"}

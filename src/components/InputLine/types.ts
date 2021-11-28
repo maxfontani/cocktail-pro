@@ -8,5 +8,4 @@ export type Props = {
   onBlur: ChangeHandler;
   name: string;
   invalid: "true" | "false";
-  disabled: boolean;
 };
