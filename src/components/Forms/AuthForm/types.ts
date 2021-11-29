@@ -2,7 +2,7 @@ import { ChangeHandler, FieldError } from "react-hook-form";
 
 export type Props = {
   title: string;
-  type: "signup" | "register";
+  type: "signin" | "register";
   submitFormHandler: (data: FormValues) => void;
 };
 

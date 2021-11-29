@@ -43,7 +43,7 @@ export default function AuthForm({ title, type, submitFormHandler }: Props) {
       <Space size="s" />
       <button className={s.formButton} type="submit" disabled={isSubmitting}>
         {type === "register" && "Register"}
-        {type === "signup" && "Sign in"}
+        {type === "signin" && "Sign in"}
       </button>
     </form>
   );

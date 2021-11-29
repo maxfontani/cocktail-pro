@@ -15,6 +15,8 @@ function App() {
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/cocktails" element={<CocktailsPage />} />
           <Route path="/cocktails/:id" element={<CocktailsPage />} />
+          <Route path="/favs" element={<HomePage />} />
+          <Route path="/history" element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
