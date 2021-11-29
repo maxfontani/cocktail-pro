@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import cocktailDbApi from "../../services/api";
+import { axiosCocktailApi } from "../../services/cocktailApi";
 
 export const searchCocktailsByName = createAsyncThunk(
-  "shop/searchCocktailsByName",
+  "cocktails/searchCocktailsByName",
   async (searchText: string) => {
-    const response = await cocktailDbApi.get(`/search.php?s=${searchText}`);
+    const response = await axiosCocktailApi.get(`/search.php?s=${searchText}`);
     if (Array.isArray(response.data.drinks)) {
       return response.data.drinks;
     }

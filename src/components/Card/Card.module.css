@@ -1,0 +1,29 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 0 10px 10px 10px;
+  border: 1px solid transparent;
+  color: black;
+  text-decoration: none;
+}
+
+.cardTitle {
+  text-align: center;
+  font-family: "Courgette";
+  width: 75%;
+  margin-bottom: 5px;
+}
+
+.cardImg {
+  width: var(--card-width);
+  border-radius: 7px;
+}
+
+.navlink {
+  color: black;
+  text-decoration: none;
+}

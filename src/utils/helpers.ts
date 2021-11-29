@@ -10,3 +10,7 @@ export function debounce(fn: F, ms: number) {
     timeout = setTimeout(fnCall, ms);
   };
 }
+
+export function getCocktailUrl(id: string): string {
+  return `/cocktails/${id}`;
+}

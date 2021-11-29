@@ -1,28 +1,34 @@
-import cocktailDbApi from "./api";
-import { Cocktail } from "../store/cocktails/types";
-import { Suggestions } from "../components/MainSearch/types";
+import { AxiosError } from "axios";
+import { axiosCocktailApi } from "./cocktailApi";
+import { getCocktailUrl } from "../utils/helpers";
 
-export function getCocktailById(id: number) {
-  return cocktailDbApi
+import { GetCocktailById, SuggestCocktailsByName } from "./types";
+import { Cocktail } from "../store/cocktails/types";
+
+export const getCocktailById: GetCocktailById = (id) => {
+  return axiosCocktailApi
     .get(`/lookup.php?i=${id}`)
     .then((response) => {
       const drinks = response.data?.drinks;
       if (Array.isArray(drinks)) {
         if (drinks.length !== 0) {
-          return drinks[0];
+          return { data: drinks[0] };
         }
       }
     })
-    .catch(() => {
-      throw new Error("Server error while fetching cocktail by id.");
+    .catch((axiosError) => {
+      let err: AxiosError = axiosError;
+      return {
+        error: { status: err.response?.status, data: err.response?.data },
+      };
     });
-}
+};
 
-export function suggestCocktailsByName(
-  searchText: string,
-  limit: number,
-): Promise<Suggestions> {
-  return cocktailDbApi
+export const suggestCocktailsByName: SuggestCocktailsByName = (
+  searchText,
+  limit,
+) => {
+  return axiosCocktailApi
     .get(`/search.php?s=${searchText}`)
     .then((response) => {
       if (Array.isArray(response.data?.drinks)) {
@@ -31,7 +37,7 @@ export function suggestCocktailsByName(
         return list.map((cocktail: Cocktail) => ({
           id: cocktail.idDrink,
           name: cocktail.strDrink,
-          url: `/cocktail?id=${cocktail.idDrink}`,
+          url: getCocktailUrl(cocktail.idDrink),
         }));
       }
       return [];
@@ -41,4 +47,4 @@ export function suggestCocktailsByName(
         "Server error while fetching cocktail search suggestions.",
       );
     });
-}
+};

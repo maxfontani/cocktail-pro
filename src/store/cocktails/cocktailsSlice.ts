@@ -1,4 +1,4 @@
-/*  eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }] */
+/* eslint no-param-reassign: "off" */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { searchCocktailsByName } from "./thunks";
 
@@ -8,23 +8,33 @@ export const cocktailsAdapter = createEntityAdapter({
   selectId: (cocktail: Cocktail) => cocktail.idDrink,
 });
 
-const initialState = cocktailsAdapter.getInitialState<CocktailsInitState>({
+const initState: CocktailsInitState = {
   total: 0,
   status: "idle",
   error: null,
-});
+};
+
+const initialState =
+  cocktailsAdapter.getInitialState<CocktailsInitState>(initState);
 
 const cocktailsSlice = createSlice({
   name: "cocktails",
   initialState,
-  reducers: {},
+  reducers: {
+    RESET: (state) => {
+      cocktailsAdapter.removeAll(state);
+      state.total = initState.total;
+      state.status = initState.status;
+      state.error = initState.error;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(searchCocktailsByName.pending, (state) => {
       state.status = "loading";
       state.error = null;
     });
     builder.addCase(searchCocktailsByName.fulfilled, (state, action) => {
-      if (state.status === "loading" && action.payload?.length) {
+      if (state.status === "loading" && Array.isArray(action.payload)) {
         cocktailsAdapter.setAll(state, action.payload);
         state.total = action.payload.length;
         state.status = "success";
@@ -39,5 +49,7 @@ const cocktailsSlice = createSlice({
     });
   },
 });
+
+export const { RESET: resetCocktailsState } = cocktailsSlice.actions;
 
 export default cocktailsSlice.reducer;

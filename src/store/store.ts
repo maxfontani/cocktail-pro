@@ -1,10 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import cocktailsSlice from "./cocktails/cocktailsSlice";
+import authSlice from "./auth/authSlice";
+import { cocktailApi } from "../services/cocktailApi";
 
 export const store = configureStore({
   reducer: {
     cocktails: cocktailsSlice,
+    auth: authSlice,
+    [cocktailApi.reducerPath]: cocktailApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cocktailApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
