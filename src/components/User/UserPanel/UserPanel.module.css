@@ -1,0 +1,25 @@
+.outer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: inherit;
+  color: aliceblue;
+  height: 50px;
+}
+
+.info {
+  text-align: center;
+}
+
+.links a {
+  font-family: Calibri;
+  color: aliceblue;
+  margin: 10px;
+}
