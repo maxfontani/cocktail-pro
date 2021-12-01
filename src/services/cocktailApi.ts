@@ -2,8 +2,11 @@ import axios from "axios";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Cocktail } from "../store/cocktails/types";
 
+export const COCKTAIL_DB_BASE_URL =
+  "https://www.thecocktaildb.com/api/json/v1/1";
+
 export const axiosCocktailApi = axios.create({
-  baseURL: "https://www.thecocktaildb.com/api/json/v1/1",
+  baseURL: COCKTAIL_DB_BASE_URL,
 });
 
 export const cocktailApi = createApi({

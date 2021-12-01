@@ -22,7 +22,7 @@ function SigninPage() {
       data.password === users[data.login].password
     ) {
       const user = users[data.login];
-      dispatch(signIn({ login: data.login }));
+      dispatch(signIn(data.login));
       nav("/", { replace: true });
     } else {
       // TODO: add err modal

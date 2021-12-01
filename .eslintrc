@@ -5,7 +5,6 @@
   },
   "rules": {
     "import/no-cycle": "off",
-    "no-unused-vars": "off",
     "prettier/prettier": ["off", { "singleQuote": true }],
     "import/prefer-default-export": "off",
     "import/extensions": "off",

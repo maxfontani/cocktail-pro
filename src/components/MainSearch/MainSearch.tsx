@@ -1,10 +1,14 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useAppSelector } from "../../hooks/redux";
+import { selectLogin } from "../../store/auth/selectors";
+import useUserData from "../../hooks/useUserData/useUserData";
 import SuggestBox from "./SuggestBox/SuggestBox";
-import { debounce } from "../../utils/helpers";
+import { format } from "date-fns";
+import { debounce, getSearchUrl } from "../../utils/helpers";
 
 import s from "./MainSearch.module.css";
 import { MainSearchProps, Suggestions } from "./types";
-import { SyntheticEvent } from "hoist-non-react-statics/node_modules/@types/react";
+import { FormEvent } from "hoist-non-react-statics/node_modules/@types/react";
 
 const DEBOUNCE_MS = 500;
 
@@ -13,15 +17,22 @@ function MainSearch({
   getSuggestionsAsync,
   sugLimit,
 }: MainSearchProps) {
+  let isMounted = true;
+  const login = useAppSelector(selectLogin);
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Suggestions>([]);
+
   const fetchSuggestions = (search: string) => {
     getSuggestionsAsync(search, sugLimit)
       .then((list) => {
-        setSuggestions(list);
+        if (isMounted) {
+          setSuggestions(list);
+        }
       })
       .catch(() => {
-        setSuggestions([]);
+        if (isMounted) {
+          setSuggestions([]);
+        }
       });
   };
   const fetchSuggestionsDebounced = useCallback(
@@ -37,6 +48,12 @@ function MainSearch({
     }
   }, [searchText]);
 
+  useEffect(() => {
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target.value;
@@ -45,8 +62,16 @@ function MainSearch({
     [],
   );
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    if (login) {
+      const { addHistory } = useUserData(login);
+      const date = Date();
+
+      addHistory({ date, search: searchText, url: getSearchUrl(searchText) });
+    }
+
     onSearchSubmit(searchText);
   };
 
