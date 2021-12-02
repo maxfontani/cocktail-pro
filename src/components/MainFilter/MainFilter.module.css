@@ -1,3 +1,12 @@
 .outer {
-  height: 200px;
+  width: 100%;
+  min-height: 100px;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
 }

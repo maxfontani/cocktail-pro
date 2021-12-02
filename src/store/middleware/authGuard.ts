@@ -1,5 +1,4 @@
 import useUserData from "../../hooks/useUserData/useUserData";
-import { useNavigate } from "react-router";
 
 import { Middleware } from "redux";
 

@@ -4,23 +4,23 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AlcFilter, Filter, InitialState } from "./types";
 
 export const initialState: InitialState = {
-  ingredients: {},
-  caterogies: {},
-  glasses: {},
-  alcoholic: "all",
+  ingredients: [],
+  caterogies: [],
+  glasses: [],
+  alcoholic: "any",
 };
 
 export const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    SET_INGREDIENTS: (state, action: PayloadAction<Filter>) => {
-      state.ingredients = action.payload;
-    },
-    SET_CATEGORIES: (state, action: PayloadAction<Filter>) => {
+    SET_CATEGORIES: (state, action: PayloadAction<string[]>) => {
       state.caterogies = action.payload;
     },
-    SET_GLASSES: (state, action: PayloadAction<Filter>) => {
+    SET_INGREDIENTS: (state, action: PayloadAction<string[]>) => {
+      state.ingredients = action.payload;
+    },
+    SET_GLASSES: (state, action: PayloadAction<string[]>) => {
       state.glasses = action.payload;
     },
     SET_ALCOHOLIC: (state, action: PayloadAction<AlcFilter>) => {

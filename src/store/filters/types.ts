@@ -5,5 +5,5 @@ export type InitialState = {
   alcoholic: AlcFilter;
 };
 
-export type Filter = { [name: string]: boolean };
-export type AlcFilter = "all" | "alc" | "nonalc";
+export type Filter = string[];
+export type AlcFilter = "any" | "alc" | "nonalc";

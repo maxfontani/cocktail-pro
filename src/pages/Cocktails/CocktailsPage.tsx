@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import { selectAllCocktails } from "../../store/cocktails/selectors";
-import { MainFilter } from "../../components";
 import CocktailHub from "./CocktailHub/CocktailHub";
 
 import s from "./CocktailsPage.module.css";
@@ -25,7 +24,6 @@ function CocktailsPage() {
         <CocktailInfo id={id} />
       ) : (
         <div className={s.splitTwoRows}>
-          <MainFilter />
           <CocktailHub cocktails={cocktails} />
         </div>
       )}

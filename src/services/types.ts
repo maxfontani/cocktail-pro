@@ -13,3 +13,15 @@ export type SuggestCocktailsByName = (
   searchText: string,
   limit: number,
 ) => Promise<Suggestions>;
+
+export type CatList = {
+  strCategory: string;
+}[];
+
+export type IngrList = {
+  strIngredient1: string;
+}[];
+
+export type GlassList = {
+  strGlass: string;
+}[];

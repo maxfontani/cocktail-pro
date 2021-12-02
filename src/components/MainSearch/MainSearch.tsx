@@ -1,26 +1,23 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useAppSelector } from "../../hooks/redux";
-import { selectLogin } from "../../store/auth/selectors";
-import useUserData from "../../hooks/useUserData/useUserData";
+import React, { useState, useCallback, useEffect, FormEvent } from "react";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { useNavigate } from "react-router";
+import { addHistory } from "../../store/auth/authSlice";
+import { selectFiltersState } from "../../store/filters/selectors";
 import SuggestBox from "./SuggestBox/SuggestBox";
-import { format } from "date-fns";
-import { debounce, getSearchUrl } from "../../utils/helpers";
+import { debounce, getSearchUrl, formFiltersQuery } from "../../utils/helpers";
 
 import s from "./MainSearch.module.css";
 import { MainSearchProps, Suggestions } from "./types";
-import { FormEvent } from "hoist-non-react-statics/node_modules/@types/react";
 
 const DEBOUNCE_MS = 500;
 
-function MainSearch({
-  onSearchSubmit,
-  getSuggestionsAsync,
-  sugLimit,
-}: MainSearchProps) {
+function MainSearch({ getSuggestionsAsync, sugLimit }: MainSearchProps) {
   let isMounted = true;
-  const login = useAppSelector(selectLogin);
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Suggestions>([]);
+  const dispatch = useAppDispatch();
+  const nav = useNavigate();
+  const filters = useAppSelector(selectFiltersState);
 
   const fetchSuggestions = (search: string) => {
     getSuggestionsAsync(search, sugLimit)
@@ -64,15 +61,16 @@ function MainSearch({
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    if (login) {
-      const { addHistory } = useUserData(login);
-      const date = Date();
-
-      addHistory({ date, search: searchText, url: getSearchUrl(searchText) });
-    }
-
-    onSearchSubmit(searchText);
+    dispatch(
+      addHistory({
+        date: Date(),
+        search: searchText,
+        url: getSearchUrl(searchText),
+      }),
+    );
+    const fQuery = formFiltersQuery(filters);
+    console.log(`/cocktails?search=${searchText}&${fQuery}`);
+    nav(`/cocktails?search=${searchText}&${fQuery}`);
   };
 
   return (

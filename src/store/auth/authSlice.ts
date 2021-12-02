@@ -37,9 +37,8 @@ export const authSlice = createSlice({
         state.favs[id] = fav;
       }
     },
-    ADDED_HISTORY: (state, action: PayloadAction<{ entry: HistoryItem }>) => {
-      const { entry } = action.payload;
-      state.history.unshift(entry);
+    ADDED_HISTORY: (state, action: PayloadAction<HistoryItem>) => {
+      state.history.unshift(action.payload);
 
       if (history.length > MAX_HISTORY) {
         state.history.pop();

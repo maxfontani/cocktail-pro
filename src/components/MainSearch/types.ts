@@ -1,5 +1,4 @@
 export type MainSearchProps = {
-  onSearchSubmit: (text: string) => void;
   getSuggestionsAsync: (
     searchText: string,
     limit: number,
