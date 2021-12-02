@@ -1,4 +1,5 @@
 import useLocalStorage from "../useLocalStorage/useLocalStorage";
+import { MAX_HISTORY } from "../../store/auth/authSlice";
 
 import { FavItem, HistoryItem, UseUserData } from "./types";
 
@@ -9,7 +10,15 @@ const useUserData: UseUserData = function useUserData(login: string) {
     const users = getUsers();
     if (!login || !users || typeof users !== "object" || Array.isArray(users))
       return;
+
     return users;
+  }
+
+  function getFavs(): { [id: string]: FavItem } {
+    const users = getUsersData();
+    if (!users || !users[login]) return {};
+
+    return users[login]["favs"];
   }
 
   function toggleFav(id: string, fav: FavItem): void {
@@ -21,23 +30,38 @@ const useUserData: UseUserData = function useUserData(login: string) {
     } else {
       users[login]["favs"][id] = fav;
     }
+
     setUsers(users);
   }
-  function addHistory(data: string, entry: HistoryItem): void {
+
+  function getHistory(): Array<HistoryItem> {
+    const users = getUsersData();
+    if (!users || !users[login]) return [];
+
+    return users[login]["history"];
+  }
+
+  function addHistory(entry: HistoryItem): void {
     const users = getUsersData();
     if (!users || !users[login]) return;
 
-    users[login]["history"][data] = entry;
+    const history = users[login]["history"];
+
+    history.unshift(entry);
+
+    if (history.length > MAX_HISTORY) {
+      history.pop();
+    }
+
     setUsers(users);
   }
 
-  function getFavsTotal(): number {
-    const users = getUsersData();
-    if (!users || !users[login]) return 0;
-    return Object.keys(users[login]["favs"]).length;
-  }
-
-  return { addHistory, toggleFav, getFavsTotal };
+  return {
+    getHistory,
+    addHistory,
+    getFavs,
+    toggleFav,
+  };
 };
 
 export default useUserData;

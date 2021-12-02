@@ -14,3 +14,7 @@ export function debounce(fn: F, ms: number) {
 export function getCocktailUrl(id: string): string {
   return `/cocktails/${id}`;
 }
+
+export function getSearchUrl(text: string): string {
+  return `/cocktails?search=${text}`;
+}

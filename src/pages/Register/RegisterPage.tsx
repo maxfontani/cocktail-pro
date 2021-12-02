@@ -1,10 +1,15 @@
+import { useAppDispatch } from "../../hooks/redux";
+import { useNavigate } from "react-router";
 import useLocalStorage from "../../hooks/useLocalStorage/useLocalStorage";
+import { signIn } from "../../store/auth/authSlice";
 import { AuthForm } from "../../components";
 
 import { FormValues } from "../../components/Forms/AuthForm/types";
 import s from "./RegisterPage.module.css";
 
 function RegisterPage() {
+  const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const [getUsers, setUsers] = useLocalStorage("users");
 
   const submitFormHandler = (data: FormValues) => {
@@ -13,8 +18,10 @@ function RegisterPage() {
       if (data.login in users) {
         // TODO: add err modal
         alert("Login already exists!");
+
+        return;
       } else {
-        users[data.login] = { password: data.password, favs: {}, history: {} };
+        users[data.login] = { password: data.password, favs: {}, history: [] };
         setUsers(users);
       }
     } else {
@@ -22,11 +29,13 @@ function RegisterPage() {
       const firstUser = {
         password: data.password,
         favs: {},
-        history: {},
+        history: [],
       };
       newUsers[data.login] = firstUser;
       setUsers(newUsers);
     }
+    nav("/", { replace: true });
+    dispatch(signIn(data.login));
   };
 
   return (

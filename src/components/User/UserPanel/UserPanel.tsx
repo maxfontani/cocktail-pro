@@ -9,11 +9,13 @@ function UserPanel({ login }: Props) {
   return (
     <div className={s.outer}>
       <div className={s.inner}>
-        <div className={s.info}>{login}</div>
-        <div className={s.links}>
-          <Link to="/history">History</Link>
-          <Link to="/favs">Favorites</Link>
-        </div>
+        <Link className={s.link} to="/history">
+          History
+        </Link>
+        <Link className={s.link} to="/favs">
+          Favorites
+        </Link>
+        <div className={s.info}>Hi, {login}!</div>
       </div>
     </div>
   );

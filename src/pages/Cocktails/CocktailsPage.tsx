@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import { selectAllCocktails } from "../../store/cocktails/selectors";
+import { MainFilter } from "../../components";
 import CocktailHub from "./CocktailHub/CocktailHub";
-import CocktailsSidebar from "./CocktailsSidebar/CocktailsSidebar";
 
 import s from "./CocktailsPage.module.css";
 import { searchCocktailsByName } from "../../store/cocktails/thunks";
@@ -21,16 +21,14 @@ function CocktailsPage() {
 
   return (
     <div className={s.outer}>
-      <div className={s.splitTwoCol}>
-        {id !== undefined ? (
-          <CocktailInfo id={id} />
-        ) : (
-          <>
-            <CocktailsSidebar />
-            <CocktailHub cocktails={cocktails} />
-          </>
-        )}
-      </div>
+      {id !== undefined ? (
+        <CocktailInfo id={id} />
+      ) : (
+        <div className={s.splitTwoRows}>
+          <MainFilter />
+          <CocktailHub cocktails={cocktails} />
+        </div>
+      )}
     </div>
   );
 }
