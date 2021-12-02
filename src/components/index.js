@@ -13,3 +13,4 @@ export { default as AuthForm } from "./Forms/AuthForm/AuthForm";
 export { default as UserPanel } from "./User/UserPanel/UserPanel";
 export { default as HistoryLine } from "./HistoryLine/HistoryLine";
 export { default as MainFilter } from "./MainFilter/MainFilter";
+export { default as PrivateRoute } from "./PrivateRoute/PrivateRoute";

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout";
-import { Error404, ErrorBoundary } from "./components";
+import { Error404, ErrorBoundary, PrivateRoute } from "./components";
 import {
   HomePage,
   CocktailsPage,
@@ -22,8 +22,18 @@ function App() {
             <Route path="/signin" element={<SigninPage />} />
             <Route path="/cocktails" element={<CocktailsPage />} />
             <Route path="/cocktails/:id" element={<CocktailsPage />} />
-            <Route path="/favs" element={<FavsPage />} />
-            <Route path="/history" element={<HistoryPage />} />
+            <Route
+              path="/favs"
+              element={
+                <PrivateRoute component={<FavsPage />} fbPath="/register" />
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <PrivateRoute component={<HistoryPage />} fbPath="/register" />
+              }
+            />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
