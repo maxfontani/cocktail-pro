@@ -8,16 +8,19 @@ function FavsHub({ favsArr }: Props) {
   return (
     <div className={s.cardHubOuter}>
       <div className={s.cardHub}>
-        {favsArr.map((v) => (
-          <Card
-            key={v[0]}
-            id={v[0]}
-            name={v[1]["name"]}
-            url={getCocktailUrl(v[0])}
-            image={v[1]["image"]}
-            isFav={true}
-          />
-        ))}
+        {favsArr.map((item) => {
+          const [id, fav] = item;
+          return (
+            <Card
+              key={id}
+              id={id}
+              name={fav.name}
+              url={getCocktailUrl(id)}
+              image={fav.image}
+              isFav={true}
+            />
+          );
+        })}
       </div>
     </div>
   );

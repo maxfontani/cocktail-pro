@@ -55,9 +55,4 @@ export const {
   TOGGLED_FAV: toggleFav,
 } = authSlice.actions;
 
-export const AUTH_ACTIONS = [
-  authSlice.name.concat("/", "ADDED_HISTORY"),
-  authSlice.name.concat("/", "TOGGLED_FAV"),
-];
-
 export default authSlice.reducer;

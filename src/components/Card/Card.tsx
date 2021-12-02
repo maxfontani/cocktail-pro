@@ -1,20 +1,23 @@
-import { memo } from "react";
+import { memo, MouseEventHandler } from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { toggleFav } from "../../store/auth/authSlice";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import favImg from "../../images/fav.png";
 import notFavImg from "../../images/notFav.png";
 
 import { Props } from "./types";
-import { MouseEventHandler } from "hoist-non-react-statics/node_modules/@types/react";
 import s from "./Card.module.css";
 
 function Card({ id, name, url, image, isFav }: Props) {
+  const nav = useNavigate();
   const dispatch = useAppDispatch();
 
   const onFavClick: MouseEventHandler = (e) => {
     e.preventDefault();
-    dispatch(toggleFav({ id, fav: { name, image } }));
+    const to = dispatch(toggleFav({ id, fav: { name, image } }));
+    if (typeof to === "string" && to[0] === "/") {
+      nav(to);
+    }
   };
 
   return (
