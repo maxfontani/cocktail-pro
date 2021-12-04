@@ -8,6 +8,7 @@ import {
   GlassList,
   GetCocktailById,
   SuggestCocktailsByName,
+  AlcList,
 } from "./types";
 import { Cocktail } from "../store/cocktails/types";
 
@@ -99,6 +100,24 @@ export async function getGlasses(): Promise<string[]> {
       if (gList && Array.isArray(gList)) {
         const gArr = gList.map((v) => v.strGlass);
         return gArr;
+      }
+      return [];
+    })
+    .catch((axiosError) => {
+      let err: AxiosError = axiosError;
+      console.error(err.message);
+      return [];
+    });
+}
+
+export async function getAlcoholic(): Promise<string[]> {
+  return axiosCocktailApi
+    .get(`/list.php?a=list`)
+    .then((response) => {
+      const aList: AlcList | undefined = response.data?.drinks;
+      if (aList && Array.isArray(aList)) {
+        const aArr = aList.map((v) => v.strAlcoholic);
+        return aArr;
       }
       return [];
     })

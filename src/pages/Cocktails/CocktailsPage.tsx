@@ -1,30 +1,48 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import { useParams, useSearchParams } from "react-router-dom";
+import useQuery from "../../hooks/useQuery/useQuery";
 import { selectAllCocktails } from "../../store/cocktails/selectors";
-import CocktailHub from "./CocktailHub/CocktailHub";
+import { resetFilters } from "../../store/filters/filtersSlice";
+import { resetCocktailsState } from "../../store/cocktails/cocktailsSlice";
+import { searchCocktails } from "../../store/cocktails/thunks";
+import { suggestCocktailsByName } from "../../services/calls";
+import { CocktailInfo, CocktailHub } from ".";
+import { MainFilter, MainSearch } from "../../components";
 
 import s from "./CocktailsPage.module.css";
-import { searchCocktailsByName } from "../../store/cocktails/thunks";
-import { CocktailInfo } from ".";
 
 function CocktailsPage() {
   let { id } = useParams();
   const dispatch = useAppDispatch();
   const cocktails = useAppSelector(selectAllCocktails);
-  let [searchParams] = useSearchParams();
+  const { getSearchQuery, searchParams } = useQuery();
+  const search = searchParams.get("search") || "";
 
   useEffect(() => {
-    dispatch(searchCocktailsByName(searchParams.get("search") || ""));
+    return () => {
+      dispatch(resetFilters());
+      dispatch(resetCocktailsState());
+    };
   }, []);
+
+  useEffect(() => {
+    const searchQuery = getSearchQuery();
+
+    dispatch(searchCocktails(searchQuery));
+  }, [searchParams]);
 
   return (
     <div className={s.outer}>
-      {id !== undefined ? (
+      {id ? (
         <CocktailInfo id={id} />
       ) : (
-        <div className={s.splitTwoRows}>
-          <CocktailHub cocktails={cocktails} />
+        <div className={s.flexCol}>
+          <div className={s.searchOuter}>
+            <MainSearch getSuggestionsAsync={suggestCocktailsByName} />
+            <MainFilter />
+          </div>
+          <CocktailHub cocktails={cocktails} search={search} />
         </div>
       )}
     </div>

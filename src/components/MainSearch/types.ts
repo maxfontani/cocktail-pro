@@ -3,7 +3,6 @@ export type MainSearchProps = {
     searchText: string,
     limit: number,
   ) => Promise<Suggestions>;
-  sugLimit: number;
 };
 
 export type Suggestions = Array<{

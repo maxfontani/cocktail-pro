@@ -1,6 +1,8 @@
 .cardHubOuter {
+  align-self: center;
   flex: 1 0 0;
   margin: 25px;
+  width: 90%;
 }
 
 .cardHub {
@@ -11,4 +13,8 @@
     minmax(min(var(--card-width), 100%), 1fr)
   );
   gap: 1rem;
+}
+
+.searchOuter {
+  border-bottom: 2px solid black;
 }

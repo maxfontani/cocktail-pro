@@ -5,4 +5,5 @@ export type Props = {
   loadOptions: () => Promise<SelOption[]>;
   onChangeHandler: (data: MultiValue<SelOption>) => void;
   label: string;
+  filter: string[];
 };

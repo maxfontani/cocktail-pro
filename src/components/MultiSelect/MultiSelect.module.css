@@ -1,11 +1,9 @@
 .filter {
-  max-height: 20px;
-  width: 250px;
+  width: 100%;
 }
 
 .select {
-  height: 20px;
-  width: 350px;
+  width: 100%;
 }
 
 .option {

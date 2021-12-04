@@ -25,3 +25,7 @@ export type IngrList = {
 export type GlassList = {
   strGlass: string;
 }[];
+
+export type AlcList = {
+  strAlcoholic: string;
+}[];

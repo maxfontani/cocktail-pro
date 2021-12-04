@@ -1,5 +1,13 @@
-import { InitialState } from "../store/filters/types";
-import { SelOption } from "./types";
+import { SearchQuery } from "../hooks/useQuery/types";
+import { InitialState as FiltersState } from "../store/filters/types";
+import { axiosCocktailApi } from "../services/cocktailApi";
+import {
+  CocktailPromise,
+  GetDefSelectBy,
+  GetDefMultiSelect,
+  SelOption,
+} from "./types";
+
 type F = (...args: any[]) => any;
 
 export function debounce(fn: F, ms: number) {
@@ -27,19 +35,46 @@ export function getSelectOptions(arr: string[]): SelOption[] {
     .map((v) => ({ value: v, label: v }));
 }
 
-export function formFiltersQuery(filters: InitialState): string {
-  let str = "";
+export function getFiltersQuery({ filter, filtBy }: FiltersState): string {
+  if (filter.length === 0) return "";
 
-  Object.entries(filters).forEach((el) => {
-    const [key, val] = el;
-    if (Array.isArray(val)) {
-      if (val.length) {
-        str = str.concat("&", key[0], "=", val.join());
-      }
-    } else {
-      str = str.concat("&", key[0], "=", val);
-    }
+  let qP = new URLSearchParams();
+  qP.set(filtBy, filter.join());
+
+  return qP.toString();
+}
+
+export function getPromiseArr(sQ: SearchQuery): CocktailPromise[] {
+  const arr: CocktailPromise[] = [];
+  const { filter, filtBy } = sQ;
+
+  filter?.forEach((f) => {
+    const p: CocktailPromise = axiosCocktailApi
+      .get(`/filter.php?${filtBy}=${f}`)
+      .then((res) => res.data?.drinks || []);
+    arr.push(p);
   });
 
-  return new URLSearchParams(str).toString();
+  return arr;
 }
+
+export const getDefSelectBy: GetDefSelectBy = (ops, val) => {
+  if (!val) return;
+
+  let def;
+
+  for (let i = 0; i < ops.length; i++) {
+    const elem = ops[i];
+    if (elem.value === val) {
+      def = elem;
+      break;
+    }
+  }
+  return def;
+};
+
+export const getDefMultiSelect: GetDefMultiSelect = (filter) => {
+  if (!filter.length) return;
+
+  return filter.map((f) => ({ value: f, label: f }));
+};

@@ -1,39 +1,37 @@
 /* eslint no-param-reassign: "off" */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AlcFilter, Filter, InitialState } from "./types";
+import { FiltBy, Filter, InitialState } from "./types";
+
+export const FILTERS: FiltBy[] = ["i", "c", "g", "a", ""];
 
 export const initialState: InitialState = {
-  ingredients: [],
-  caterogies: [],
-  glasses: [],
-  alcoholic: "any",
+  filter: [],
+  filtBy: "",
 };
 
 export const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    SET_CATEGORIES: (state, action: PayloadAction<string[]>) => {
-      state.caterogies = action.payload;
+    SET_FILTER: (state, action: PayloadAction<Filter | string>) => {
+      if (typeof action.payload === "string") {
+        state.filter = [action.payload];
+      } else {
+        state.filter = action.payload;
+      }
     },
-    SET_INGREDIENTS: (state, action: PayloadAction<string[]>) => {
-      state.ingredients = action.payload;
+    SET_FILT_BY: (state, action: PayloadAction<FiltBy>) => {
+      state.filtBy = action.payload;
     },
-    SET_GLASSES: (state, action: PayloadAction<string[]>) => {
-      state.glasses = action.payload;
-    },
-    SET_ALCOHOLIC: (state, action: PayloadAction<AlcFilter>) => {
-      state.alcoholic = action.payload;
-    },
+    RESET: () => initialState,
   },
 });
 
 export const {
-  SET_ALCOHOLIC: setAlcFilter,
-  SET_CATEGORIES: setCatFilter,
-  SET_GLASSES: setGlassFilter,
-  SET_INGREDIENTS: setIngrFilter,
+  SET_FILTER: setFilter,
+  SET_FILT_BY: setFiltBy,
+  RESET: resetFilters,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

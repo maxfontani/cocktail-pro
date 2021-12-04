@@ -1,26 +1,65 @@
 import React, { useState, useCallback, useEffect, FormEvent } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { addHistory } from "../../store/auth/authSlice";
 import { selectFiltersState } from "../../store/filters/selectors";
 import SuggestBox from "./SuggestBox/SuggestBox";
-import { debounce, getSearchUrl, formFiltersQuery } from "../../utils/helpers";
+import { debounce, getSearchUrl, getFiltersQuery } from "../../utils/helpers";
 
-import s from "./MainSearch.module.css";
 import { MainSearchProps, Suggestions } from "./types";
+import s from "./MainSearch.module.css";
 
 const DEBOUNCE_MS = 500;
+const SUGGESTIONS_LIMIT = 5;
 
-function MainSearch({ getSuggestionsAsync, sugLimit }: MainSearchProps) {
+function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
   let isMounted = true;
-  const [searchText, setSearchText] = useState<string>("");
+  const [qS] = useSearchParams();
+  const defSearch = qS.get("search") || "";
+  const [searchText, setSearchText] = useState<string>(defSearch);
   const [suggestions, setSuggestions] = useState<Suggestions>([]);
-  const dispatch = useAppDispatch();
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const filters = useAppSelector(selectFiltersState);
 
+  useEffect(() => {
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    searchText ? fetchSuggestionsDebounced(searchText) : setSuggestions([]);
+  }, [searchText]);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    dispatch(
+      addHistory({
+        date: Date(),
+        search: searchText,
+        url: getSearchUrl(searchText),
+      }),
+    );
+
+    let url = `/cocktails?search=${searchText}`;
+    url = url.concat("&", getFiltersQuery(filters));
+
+    nav(url);
+  };
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+      setSearchText(input);
+    },
+    [],
+  );
+
   const fetchSuggestions = (search: string) => {
-    getSuggestionsAsync(search, sugLimit)
+    getSuggestionsAsync(search, SUGGESTIONS_LIMIT)
       .then((list) => {
         if (isMounted) {
           setSuggestions(list);
@@ -32,46 +71,11 @@ function MainSearch({ getSuggestionsAsync, sugLimit }: MainSearchProps) {
         }
       });
   };
+
   const fetchSuggestionsDebounced = useCallback(
     debounce(fetchSuggestions, DEBOUNCE_MS),
     [],
   );
-
-  useEffect(() => {
-    if (searchText) {
-      fetchSuggestionsDebounced(searchText);
-    } else {
-      setSuggestions([]);
-    }
-  }, [searchText]);
-
-  useEffect(() => {
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const input = e.target.value;
-      setSearchText(input);
-    },
-    [],
-  );
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    dispatch(
-      addHistory({
-        date: Date(),
-        search: searchText,
-        url: getSearchUrl(searchText),
-      }),
-    );
-    const fQuery = formFiltersQuery(filters);
-    console.log(`/cocktails?search=${searchText}&${fQuery}`);
-    nav(`/cocktails?search=${searchText}&${fQuery}`);
-  };
 
   return (
     <div className={s.outer}>

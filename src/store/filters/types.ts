@@ -1,9 +1,13 @@
 export type InitialState = {
-  ingredients: Filter;
-  caterogies: Filter;
-  glasses: Filter;
-  alcoholic: AlcFilter;
+  filter: string[];
+  filtBy: FiltBy;
 };
 
 export type Filter = string[];
-export type AlcFilter = "any" | "alc" | "nonalc";
+export type AlcFilter = string | undefined;
+
+export type FiltBy = "i" | "c" | "g" | "a" | "";
+export type FiltByOption = {
+  value: FiltBy;
+  label: string;
+};
