@@ -25,10 +25,6 @@ export function getCocktailUrl(id: string): string {
   return `/cocktails/${id}`;
 }
 
-export function getSearchUrl(text: string): string {
-  return `/cocktails?search=${text}`;
-}
-
 export function getSelectOptions(arr: string[]): SelOption[] {
   return arr
     .sort((a, b) => a.localeCompare(b))

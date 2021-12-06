@@ -23,12 +23,14 @@ const useUserData: UseUserData = function useUserData(login: string) {
 
   function toggleFav(id: string, fav: FavItem): void {
     const users = getUsersData();
-    if (!users || !users[login]) return;
+    if (!users || !users[login] || !users[login]["favs"]) return;
 
-    if (id in users[login]["favs"]) {
-      delete users[login]["favs"][id];
+    const favs = users[login]["favs"];
+
+    if (id in favs) {
+      delete favs[id];
     } else {
-      users[login]["favs"][id] = fav;
+      favs[id] = fav;
     }
 
     setUsers(users);
