@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Props, Sizes } from "./types";
 
 const SIZES: Sizes = {

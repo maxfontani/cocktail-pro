@@ -18,3 +18,13 @@
 .searchOuter {
   border-bottom: 2px solid black;
 }
+
+@media all and (max-width: 460px) {
+  .cardHub {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+}

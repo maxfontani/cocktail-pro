@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, FormEvent } from "react";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { addHistory } from "../../store/auth/authSlice";
 import { selectFiltersState } from "../../store/filters/selectors";
 import SuggestBox from "./SuggestBox/SuggestBox";
@@ -35,23 +35,6 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
     searchText ? fetchSuggestionsDebounced(searchText) : setSuggestions([]);
   }, [searchText]);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
-    let url = `/cocktails?search=${searchText}`;
-    url = url.concat("&", getFiltersQuery(filters));
-
-    dispatch(
-      addHistory({
-        date: Date(),
-        search: searchText ? `"${searchText}"` : "empty",
-        url,
-      }),
-    );
-
-    nav(url);
-  };
-
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target.value;
@@ -59,29 +42,6 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
     },
     [],
   );
-
-  const handleInputBlur = () => {
-    // allows for a redirect on suggestion click
-    setTimeout(() => setShowSug(false), 100);
-  };
-
-  const handleInputFocus = () => {
-    setShowSug(true);
-  };
-
-  const fetchSuggestions = (search: string) => {
-    getSuggestionsAsync(search, SUGGESTIONS_LIMIT)
-      .then((list) => {
-        if (isFirstLoad) {
-          setSuggestions(list);
-        }
-      })
-      .catch(() => {
-        if (isFirstLoad) {
-          setSuggestions([]);
-        }
-      });
-  };
 
   const fetchSuggestionsDebounced = useCallback(
     debounce(fetchSuggestions, DEBOUNCE_MS),
@@ -115,6 +75,46 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
       </div>
     </div>
   );
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    let url = `/cocktails?search=${searchText}`;
+    url = url.concat("&", getFiltersQuery(filters));
+
+    dispatch(
+      addHistory({
+        date: Date(),
+        search: searchText ? `"${searchText}"` : "empty",
+        url,
+      }),
+    );
+
+    nav(url);
+  }
+
+  function handleInputBlur() {
+    // allows for a redirect on suggestion click
+    setTimeout(() => setShowSug(false), 100);
+  }
+
+  function handleInputFocus() {
+    setShowSug(true);
+  }
+
+  function fetchSuggestions(search: string) {
+    getSuggestionsAsync(search, SUGGESTIONS_LIMIT)
+      .then((list) => {
+        if (isFirstLoad) {
+          setSuggestions(list);
+        }
+      })
+      .catch(() => {
+        if (isFirstLoad) {
+          setSuggestions([]);
+        }
+      });
+  }
 }
 
 export default MainSearch;

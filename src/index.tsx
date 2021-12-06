@@ -4,6 +4,7 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
+import { AppContextProvider } from "./context/AppContext";
 import * as serviceWorker from "./serviceWorker";
 
 import "./styles/global.css";
@@ -11,9 +12,11 @@ import "./styles/global.css";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
+      <AppContextProvider>
+        <Router>
+          <App />
+        </Router>
+      </AppContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root"),

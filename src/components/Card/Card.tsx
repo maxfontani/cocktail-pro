@@ -8,21 +8,21 @@ import notFavImg from "../../images/notFav.png";
 import { Props } from "./types";
 import s from "./Card.module.css";
 
-function Card({ id, name, url, image, isFav }: Props) {
+function Card({ id, name, url, image, showName, isFav }: Props) {
   const nav = useNavigate();
   const dispatch = useAppDispatch();
 
   const onFavClick: MouseEventHandler = (e) => {
     e.preventDefault();
-    const to = dispatch(toggleFav({ id, fav: { name, image } }));
-    if (typeof to === "string" && to[0] === "/") {
-      nav(to);
+    const fbUrl = dispatch(toggleFav({ id, fav: { name, image } }));
+    if (typeof fbUrl === "string") {
+      nav(fbUrl);
     }
   };
 
   return (
     <NavLink className={s.card} to={url}>
-      <div className={s.cardTitle}>{name}</div>
+      {showName && <div className={s.cardTitle}>{name}</div>}
       <div className={s.cardImgOuter}>
         {isFav ? (
           <img

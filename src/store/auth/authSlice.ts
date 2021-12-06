@@ -8,11 +8,7 @@ import { InitialState, FavItem, HistoryItem } from "./types";
 export const MAX_HISTORY = 10;
 const { getLastLogin, setLastLogin } = useLoginData();
 
-export const initialState: InitialState = {
-  login: getLastLogin(),
-  favs: {},
-  history: [],
-};
+export const initialState: InitialState = getInitState();
 
 export const authSlice = createSlice({
   name: "auth",
@@ -50,6 +46,25 @@ export const authSlice = createSlice({
     },
   },
 });
+
+function getInitState() {
+  const login = getLastLogin();
+
+  if (login) {
+    const { getFavs, getHistory } = useUserData(login);
+    return {
+      login,
+      favs: getFavs(),
+      history: getHistory(),
+    };
+  }
+
+  return {
+    login: undefined,
+    favs: {},
+    history: [],
+  };
+}
 
 export const {
   SIGNED_IN: signIn,

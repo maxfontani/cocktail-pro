@@ -6,10 +6,10 @@
   align-items: center;
   font-size: 14px;
   border-radius: 10px;
-  padding: 0 10px 10px 10px;
   border: 1px solid transparent;
   color: black;
   text-decoration: none;
+  max-width: var(--card-width);
 }
 
 .card:hover {
@@ -25,11 +25,12 @@
 
 .cardImgOuter {
   position: relative;
+  margin-bottom: -4px;
 }
 
 .cardImg {
   width: var(--card-width);
-  border-radius: 7px;
+  border-radius: 10px;
 }
 
 .cardFav {
@@ -65,4 +66,19 @@
 .navlink {
   color: black;
   text-decoration: none;
+}
+
+@media all and (max-width: 460px) {
+  .card {
+    width: 90%;
+    max-width: 460px;
+    padding-bottom: 15px;
+  }
+
+  .card:hover {
+    border: 1px solid black;
+  }
+  .cardImg {
+    max-width: 250px;
+  }
 }
