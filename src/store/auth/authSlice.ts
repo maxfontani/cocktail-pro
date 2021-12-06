@@ -1,13 +1,15 @@
 /* eslint no-param-reassign: "off" */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import useUserData from "../../hooks/useUserData/useUserData";
+import useLoginData from "../../hooks/useLoginData/useLoginData";
 
 import { InitialState, FavItem, HistoryItem } from "./types";
 
 export const MAX_HISTORY = 10;
+const { getLastLogin, setLastLogin } = useLoginData();
 
 export const initialState: InitialState = {
-  login: undefined,
+  login: getLastLogin(),
   favs: {},
   history: [],
 };
@@ -19,11 +21,13 @@ export const authSlice = createSlice({
     SIGNED_IN: (state, action: PayloadAction<string>) => {
       const login = action.payload;
       const { getFavs, getHistory } = useUserData(login);
+      setLastLogin(login);
       state.login = login;
       state.favs = getFavs();
       state.history = getHistory();
     },
     SIGNED_OUT: (state) => {
+      setLastLogin("");
       state.login = undefined;
     },
     TOGGLED_FAV: (

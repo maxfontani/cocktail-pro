@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { addHistory } from "../../store/auth/authSlice";
 import { selectFiltersState } from "../../store/filters/selectors";
 import SuggestBox from "./SuggestBox/SuggestBox";
-import { debounce, getSearchUrl, getFiltersQuery } from "../../utils/helpers";
+import { debounce, getFiltersQuery } from "../../utils/helpers";
 
 import { MainSearchProps, Suggestions } from "./types";
 import s from "./MainSearch.module.css";
@@ -14,18 +14,20 @@ const DEBOUNCE_MS = 500;
 const SUGGESTIONS_LIMIT = 5;
 
 function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
-  let isMounted = true;
   const [qS] = useSearchParams();
   const defSearch = qS.get("search") || "";
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [searchText, setSearchText] = useState<string>(defSearch);
   const [suggestions, setSuggestions] = useState<Suggestions>([]);
+  const [showSug, setShowSug] = useState(true);
   const nav = useNavigate();
   const dispatch = useAppDispatch();
   const filters = useAppSelector(selectFiltersState);
 
   useEffect(() => {
+    setShowSug(false);
     return () => {
-      isMounted = false;
+      setIsFirstLoad(false);
     };
   }, []);
 
@@ -36,16 +38,16 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    let url = `/cocktails?search=${searchText}`;
+    url = url.concat("&", getFiltersQuery(filters));
+
     dispatch(
       addHistory({
         date: Date(),
-        search: searchText,
-        url: getSearchUrl(searchText),
+        search: searchText ? `"${searchText}"` : "empty",
+        url,
       }),
     );
-
-    let url = `/cocktails?search=${searchText}`;
-    url = url.concat("&", getFiltersQuery(filters));
 
     nav(url);
   };
@@ -58,15 +60,24 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
     [],
   );
 
+  const handleInputBlur = () => {
+    // allows for a redirect on suggestion click
+    setTimeout(() => setShowSug(false), 100);
+  };
+
+  const handleInputFocus = () => {
+    setShowSug(true);
+  };
+
   const fetchSuggestions = (search: string) => {
     getSuggestionsAsync(search, SUGGESTIONS_LIMIT)
       .then((list) => {
-        if (isMounted) {
+        if (isFirstLoad) {
           setSuggestions(list);
         }
       })
       .catch(() => {
-        if (isMounted) {
+        if (isFirstLoad) {
           setSuggestions([]);
         }
       });
@@ -89,9 +100,11 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
             className={s.searchInput}
             value={searchText}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onFocus={handleInputFocus}
             type="search"
           />
-          <SuggestBox suggestions={suggestions} />
+          <SuggestBox suggestions={suggestions} isVisible={showSug} />
         </form>
         <button
           className={s.searchBtn}

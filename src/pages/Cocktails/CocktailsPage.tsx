@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import useQuery from "../../hooks/useQuery/useQuery";
 import { selectAllCocktails } from "../../store/cocktails/selectors";
-import { resetFilters } from "../../store/filters/filtersSlice";
+import { setFilterState, resetFilters } from "../../store/filters/filtersSlice";
 import { resetCocktailsState } from "../../store/cocktails/cocktailsSlice";
 import { searchCocktails } from "../../store/cocktails/thunks";
 import { suggestCocktailsByName } from "../../services/calls";
@@ -18,8 +18,10 @@ function CocktailsPage() {
   const cocktails = useAppSelector(selectAllCocktails);
   const { getSearchQuery, searchParams } = useQuery();
   const search = searchParams.get("search") || "";
+  const q = getSearchQuery();
 
   useEffect(() => {
+    dispatch(setFilterState({ filter: q.filter || [], filtBy: q.filtBy }));
     return () => {
       dispatch(resetFilters());
       dispatch(resetCocktailsState());
@@ -27,9 +29,7 @@ function CocktailsPage() {
   }, []);
 
   useEffect(() => {
-    const searchQuery = getSearchQuery();
-
-    dispatch(searchCocktails(searchQuery));
+    dispatch(searchCocktails(q));
   }, [searchParams]);
 
   return (

@@ -1,6 +1,6 @@
 import { UseLocalStorage } from "./types";
 
-const useLocalStorage: UseLocalStorage = function useLocalStorage(key) {
+const useLocalStorage: UseLocalStorage = (key) => {
   function getItem() {
     const val = localStorage.getItem(key);
     return typeof val === "string" ? JSON.parse(val) : null;

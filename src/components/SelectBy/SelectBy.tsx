@@ -15,7 +15,7 @@ const options: FiltByOption[] = [
 function SelectBy({ onChange, filtBy }: Props) {
   return (
     <Select
-      placeholder="Search by..."
+      placeholder="Filter by..."
       options={options}
       onChange={onChange}
       isClearable

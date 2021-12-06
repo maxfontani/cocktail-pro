@@ -3,6 +3,11 @@ export type InitialState = {
   filtBy: FiltBy;
 };
 
+export type StateUpdate = {
+  filter: string | string[];
+  filtBy: FiltBy;
+};
+
 export type Filter = string[];
 export type AlcFilter = string | undefined;
 

@@ -27,7 +27,18 @@
   margin: 10px;
 }
 
-@media all and (max-width: 480px) {
+.sOutBtn {
+  cursor: pointer;
+  color: aliceblue;
+  border: none;
+  background-color: transparent;
+}
+
+.sOutBtn:hover {
+  text-decoration: underline;
+}
+
+@media all and (max-width: 680px) {
   .outer {
     justify-content: center;
   }

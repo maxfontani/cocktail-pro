@@ -1,28 +1,20 @@
 import { useAppDispatch } from "../../hooks/redux";
-import useLocalStorage from "../../hooks/useLocalStorage/useLocalStorage";
 import { useNavigate } from "react-router";
+import useLoginData from "../../hooks/useLoginData/useLoginData";
 import { AuthForm } from "../../components";
-import { signIn } from "../../store/auth/authSlice";
+import { signIn as setAuth } from "../../store/auth/authSlice";
 
 import { FormValues } from "../../components/Forms/AuthForm/types";
 import s from "./SigninPage.module.css";
 
 function SigninPage() {
-  const [getUsers] = useLocalStorage("users");
   const dispatch = useAppDispatch();
   const nav = useNavigate();
+  const { signIn } = useLoginData();
 
   const submitFormHandler = (data: FormValues) => {
-    let users = getUsers();
-    if (
-      users &&
-      typeof users === "object" &&
-      !Array.isArray(users) &&
-      data.login in users &&
-      data.password === users[data.login].password
-    ) {
-      const user = users[data.login];
-      dispatch(signIn(data.login));
+    if (signIn(data.login)) {
+      dispatch(setAuth(data.login));
       nav("/", { replace: true });
     } else {
       // TODO: add err modal
