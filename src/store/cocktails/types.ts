@@ -4,6 +4,12 @@ export type CocktailsInitState = {
   error: string | null;
 };
 
+export type CocktailShort = {
+  strDrink: string;
+  strDrinkThumb: string;
+  idDrink: string;
+};
+
 export type Cocktail = {
   idDrink: string;
   strDrink: string;
@@ -37,9 +43,9 @@ export type Cocktail = {
   strIngredient13: string | null;
   strIngredient14: string | null;
   strIngredient15: string | null;
-  strMeasure1: "1 1/2 oz ";
-  strMeasure2: "1/2 oz ";
-  strMeasure3: "1 oz ";
+  strMeasure1: string | null;
+  strMeasure2: string | null;
+  strMeasure3: string | null;
   strMeasure4: string | null;
   strMeasure5: string | null;
   strMeasure6: string | null;
