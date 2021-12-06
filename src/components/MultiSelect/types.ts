@@ -1,4 +1,4 @@
-import { MultiValue, ActionMeta } from "react-select";
+import { MultiValue } from "react-select";
 import { SelOption } from "../../utils/types";
 
 export type Props = {

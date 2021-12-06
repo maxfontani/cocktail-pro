@@ -15,6 +15,7 @@ function FavsHub({ favsArr }: Props) {
               key={id}
               id={id}
               name={fav.name}
+              showName
               url={getCocktailUrl(id)}
               image={fav.image}
               isFav={true}

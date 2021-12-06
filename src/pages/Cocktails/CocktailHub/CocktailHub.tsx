@@ -23,6 +23,7 @@ function CocktailHub({ cocktails, search }: Props) {
             key={v.idDrink}
             id={v.idDrink}
             name={v.strDrink}
+            showName
             url={getCocktailUrl(v.idDrink)}
             image={v.strDrinkThumb}
             isFav={v.idDrink in favs}

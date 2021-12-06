@@ -25,16 +25,16 @@ function useLoginData() {
 
   function register(login: string, pass: string): string | undefined {
     const users = getUsersData();
-    // do we have a Users obj?
-    // add user to a new Users obj
+    // is there a Users obj?
     if (users) {
-      // does login already exists?
+      // does the login already exist?
       if (login in users) {
         return;
       } else {
         users[login] = { password: pass, favs: {}, history: [] };
         setUsers(users);
       }
+      // create new Users obj
     } else {
       const newUsers = Object.create(null);
       const firstUser = {
@@ -52,6 +52,7 @@ function useLoginData() {
   function signIn(login: Entry | null): string | undefined {
     const users = getUsers();
 
+    // check if the login is valid and exists in Users
     if (
       !!login &&
       typeof login === "string" &&

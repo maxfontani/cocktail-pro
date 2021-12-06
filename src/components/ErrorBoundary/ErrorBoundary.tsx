@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+
 import { Props, State, ErrorInfo } from "./types";
 
 class ErrorBoundary extends Component<Props, State> {

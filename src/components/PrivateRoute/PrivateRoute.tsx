@@ -1,4 +1,3 @@
-import { Route } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import { selectLogin } from "../../store/auth/selectors";
 import { Navigate } from "react-router-dom";

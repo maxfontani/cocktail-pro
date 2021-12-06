@@ -1,3 +1,8 @@
-.outer {
+.outerDark {
   text-align: center;
+  color: black;
+}
+
+.outerLight {
+  color: #333;
 }

@@ -7,6 +7,7 @@ import {
   GetDefMultiSelect,
   SelOption,
 } from "./types";
+import { Cocktail } from "../store/cocktails/types";
 
 type F = (...args: any[]) => any;
 
@@ -74,3 +75,18 @@ export const getDefMultiSelect: GetDefMultiSelect = (filter) => {
 
   return filter.map((f) => ({ value: f, label: f }));
 };
+
+export function getIngr(c: Cocktail): string[] {
+  const MAX_INGR = 15;
+  const res = [];
+
+  for (let i = 0; i < MAX_INGR; i++) {
+    const key = ("strIngredient" + i) as keyof Cocktail;
+    const ingr = c[key];
+    if (ingr) {
+      res.push(ingr);
+    }
+  }
+
+  return res;
+}

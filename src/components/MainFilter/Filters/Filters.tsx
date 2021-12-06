@@ -7,12 +7,11 @@ import {
   getAlcoholic,
 } from "../../../services/calls";
 import { SingleSelect, MultiSelect } from "../..";
-import { getSelectOptions, getDefMultiSelect } from "../../../utils/helpers";
-
-import { MultiValue, SingleValue } from "react-select";
-import { SelOption } from "../../../utils/types";
+import { getSelectOptions } from "../../../utils/helpers";
 
 import { Props } from "./types";
+import { MultiValue, SingleValue } from "react-select";
+import { SelOption } from "../../../utils/types";
 
 function Filters({ filters }: Props) {
   const dispatch = useAppDispatch();

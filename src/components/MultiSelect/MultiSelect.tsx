@@ -6,11 +6,11 @@ import {
   StylesConfig,
   MenuProps,
 } from "react-select";
+import { getDefMultiSelect } from "../../utils/helpers";
 
 import { Props } from "./types";
 import { SelOption } from "../../utils/types";
 import s from "./MultiSelect.module.css";
-import { getDefMultiSelect } from "../../utils/helpers";
 
 const SELECT_LIMIT = 3;
 
