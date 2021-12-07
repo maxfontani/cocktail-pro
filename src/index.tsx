@@ -13,7 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AppContextProvider>
-        <Router>
+        <Router basename="/cocktail-pro">
           <App />
         </Router>
       </AppContextProvider>
