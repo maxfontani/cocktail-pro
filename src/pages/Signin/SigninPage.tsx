@@ -17,7 +17,6 @@ function SigninPage() {
       dispatch(setAuth(data.login));
       nav("/", { replace: true });
     } else {
-      // TODO: add err modal
       alert("Invalid login or password!");
     }
   };

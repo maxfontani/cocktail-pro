@@ -17,7 +17,6 @@ function RegisterPage() {
       nav("/", { replace: true });
       dispatch(signIn(data.login));
     } else {
-      //TODO: add modal
       alert("Invalid login/password!");
     }
   };

@@ -17,3 +17,4 @@ export { default as PrivateRoute } from "./PrivateRoute/PrivateRoute";
 export { default as MultiSelect } from "./MultiSelect/MultiSelect";
 export { default as SingleSelect } from "./SingleSelect/SingleSelect";
 export { default as SelectBy } from "./SelectBy/SelectBy";
+export { default as Spinner } from "./Spinner/Spinner";
