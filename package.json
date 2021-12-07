@@ -1,7 +1,7 @@
 {
   "name": "cocktail-pro",
   "version": "0.1.0",
-  "homepage": "https://maxfontani.github.io/cocktail-pro/",
+  "homepage": "https://maxfontani.github.io/",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",
@@ -32,7 +32,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -b master -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
