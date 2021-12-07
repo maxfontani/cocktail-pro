@@ -93,9 +93,10 @@ function MainSearch({ getSuggestionsAsync }: MainSearchProps) {
     nav(url);
   }
 
-  function handleInputBlur() {
-    // allows for a redirect on suggestion click
-    setTimeout(() => setShowSug(false), 100);
+  function handleInputBlur(e: React.FocusEvent) {
+    if (e.relatedTarget?.tagName !== "A") {
+      setShowSug(false);
+    }
   }
 
   function handleInputFocus() {
