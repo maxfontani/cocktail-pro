@@ -10,7 +10,7 @@ function HomePage() {
 
   return (
     <div className={style}>
-      <h2>Welcome to CocktailsPRO!</h2>
+      <h2>Welcome to CocktailPRO!</h2>
       <p>Search for a cocktail:</p>
       <MainSearch getSuggestionsAsync={suggestCocktailsByName} />
       <MainFilter />

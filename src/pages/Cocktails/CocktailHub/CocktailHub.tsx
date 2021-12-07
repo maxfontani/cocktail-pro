@@ -17,19 +17,23 @@ function CocktailHub({ cocktails, search }: Props) {
 
   return (
     <div className={s.cardHubOuter}>
-      <div className={s.cardHub}>
-        {cocktails.filter(filterFn).map((v) => (
-          <Card
-            key={v.idDrink}
-            id={v.idDrink}
-            name={v.strDrink}
-            showName
-            url={getCocktailUrl(v.idDrink)}
-            image={v.strDrinkThumb}
-            isFav={v.idDrink in favs}
-          />
-        ))}
-      </div>
+      {cocktails.length ? (
+        <div className={s.cardHub}>
+          {cocktails.filter(filterFn).map((v) => (
+            <Card
+              key={v.idDrink}
+              id={v.idDrink}
+              name={v.strDrink}
+              showName
+              url={getCocktailUrl(v.idDrink)}
+              image={v.strDrinkThumb}
+              isFav={v.idDrink in favs}
+            />
+          ))}
+        </div>
+      ) : (
+        <h3>No cocktails found matching your search.</h3>
+      )}
     </div>
   );
 }
