@@ -16,7 +16,12 @@ export const selectCocktailsTotal = createSelector(
   (cocktails) => cocktails.total,
 );
 
-export const selectShopStatus = createSelector(selectCocktails, (cocktails) => [
-  cocktails.status,
-  cocktails.error,
-]);
+export const selectCocktailsState = createSelector(
+  selectCocktails,
+  selectAllCocktails,
+  (state, cocktails) => ({
+    cocktails,
+    status: state.status,
+    error: state.error,
+  }),
+);

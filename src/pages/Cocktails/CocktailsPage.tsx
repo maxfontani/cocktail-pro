@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import useQuery from "../../hooks/useQuery/useQuery";
-import { selectAllCocktails } from "../../store/cocktails/selectors";
 import { setFilterState, resetFilters } from "../../store/filters/filtersSlice";
 import { resetCocktailsState } from "../../store/cocktails/cocktailsSlice";
 import { searchCocktails } from "../../store/cocktails/thunks";
@@ -15,7 +14,6 @@ import s from "./CocktailsPage.module.css";
 function CocktailsPage() {
   let { id } = useParams();
   const dispatch = useAppDispatch();
-  const cocktails = useAppSelector(selectAllCocktails);
   const { getSearchQuery, searchParams } = useQuery();
   const search = searchParams.get("search") || "";
   const q = getSearchQuery();
@@ -42,7 +40,7 @@ function CocktailsPage() {
             <MainSearch getSuggestionsAsync={suggestCocktailsByName} />
             <MainFilter />
           </div>
-          <CocktailHub cocktails={cocktails} search={search} />
+          <CocktailHub search={search} />
         </div>
       )}
     </div>

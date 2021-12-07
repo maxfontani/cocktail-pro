@@ -34,10 +34,10 @@ const cocktailsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(searchCocktailsByName.fulfilled, (state, action) => {
-      if (state.status === "loading" && Array.isArray(action.payload)) {
+      state.status = "success";
+      if (Array.isArray(action.payload)) {
         cocktailsAdapter.setAll(state, action.payload);
         state.total = action.payload.length;
-        state.status = "success";
       }
     });
     builder.addCase(searchCocktailsByName.rejected, (state, action) => {
@@ -52,10 +52,10 @@ const cocktailsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(searchCocktailsByFilter.fulfilled, (state, action) => {
-      if (state.status === "loading" && Array.isArray(action.payload)) {
+      state.status = "success";
+      if (Array.isArray(action.payload)) {
         cocktailsAdapter.setAll(state, action.payload);
         state.total = action.payload.length;
-        state.status = "success";
       }
     });
     builder.addCase(searchCocktailsByFilter.rejected, (state, action) => {

@@ -1,7 +1,6 @@
 import { Cocktail, CocktailShort } from "../../../store/cocktails/types";
 
 export type Props = {
-  cocktails: Array<Cocktail | CocktailShort>;
   search: string;
 };
 
