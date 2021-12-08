@@ -6,7 +6,7 @@ function AuthButtons() {
   return (
     <div className={s.outer}>
       <button className={s.signInBtn} type="button">
-        <Link to="./signin">Sing In</Link>
+        <Link to="./signin">Sign In</Link>
       </button>
       <button className={s.regBtn} type="button">
         <Link to="./register">Register</Link>
